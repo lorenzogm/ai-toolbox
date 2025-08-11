@@ -40,16 +40,15 @@ src/
 │   ├── home-page.tsx
 │   ├── user-profile-page.tsx
 │   └── ...
-├── hooks/
-│   ├── use-local-storage.ts
-│   └── ...
-├── utils/
-│   ├── format-date.ts
-│   └── ...
 └── types/
     ├── user.ts
     └── ...
 ```
+
+### File Collocation Principles
+- **Avoid global utility folders**: Instead of centralized `hooks/` or `utils/` folders, collocate related files near where they are used
+- **Keep related code together**: Place helper functions, custom hooks, and utilities in the same directory as the components that use them
+- **Example**: If a `user-profile-page.tsx` needs a custom hook, create `user-profile-page.hook.ts` in the same directory
 
 ## UI Component Guidelines
 
@@ -86,25 +85,22 @@ interface ComponentNameProps {
   // Other props...
 }
 
-export const ComponentName: React.FC<ComponentNameProps> = ({
-  children,
-  className = '',
-  // Other props...
-}) => {
+export function ComponentName(props: ComponentNameProps) {
   return (
-    <div className={`base-styles ${className}`}>
-      {children}
+    <div className={`base-styles ${props.className || ''}`}>
+      {props.children}
     </div>
   );
-};
+}
 ```
 
 ### Props Guidelines
 - Use TypeScript interfaces for all component props
 - Props should be named using camelCase
-- Always provide default values where appropriate
+- **Avoid props destructuring**: Use `props.propName` instead of destructuring
 - Include `children` and `className` props for maximum flexibility
 - Use descriptive prop names that clearly indicate their purpose
+- Access props through the props object: `props.children`, `props.className`, etc.
 
 ### Styling Guidelines
 - Use Tailwind CSS classes for all styling
@@ -114,14 +110,20 @@ export const ComponentName: React.FC<ComponentNameProps> = ({
 
 Example:
 ```typescript
-export const Button: React.FC<ButtonProps> = ({
-  variant = 'primary',
-  size = 'medium',
-  disabled = false,
-  children,
-  className = '',
-  ...props
-}) => {
+interface ButtonProps {
+  variant?: 'primary' | 'secondary';
+  size?: 'small' | 'medium' | 'large';
+  disabled?: boolean;
+  children: React.ReactNode;
+  className?: string;
+}
+
+export function Button(props: ButtonProps) {
+  const variant = props.variant || 'primary';
+  const size = props.size || 'medium';
+  const disabled = props.disabled || false;
+  const className = props.className || '';
+
   const baseClasses = 'font-medium rounded focus:outline-none focus:ring-2';
   const variantClasses = {
     primary: 'bg-blue-600 text-white hover:bg-blue-700',
@@ -137,12 +139,11 @@ export const Button: React.FC<ButtonProps> = ({
     <button
       className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
       disabled={disabled}
-      {...props}
     >
-      {children}
+      {props.children}
     </button>
   );
-};
+}
 ```
 
 ## Code Generation Guidelines
@@ -151,19 +152,49 @@ When generating code, always:
 
 1. **Follow naming conventions** strictly
 2. **Create TypeScript interfaces** for all props and data structures
-3. **Use functional components** with React.FC type
+3. **Use function declarations** instead of arrow functions for components
 4. **Import React explicitly** when using JSX
 5. **Export components using named exports**
 6. **Include proper TypeScript types** for all parameters and return values
 7. **Use Tailwind classes** for styling
 8. **Implement proper component composition** with children props
 9. **Add className prop** to all components for styling flexibility
-10. **Use destructuring** for props and provide default values
+10. **Avoid props destructuring** - always use `props.propName` pattern
+11. **Use single useState** when state is needed - combine related state into one useState call
+12. **Collocate related files** - avoid global utils/hooks folders, keep files near where they're used
+
+## State Management Guidelines
+
+### Single useState Pattern
+When components need state, use a single `useState` call to manage related state:
+
+```typescript
+interface ComponentState {
+  isLoading: boolean;
+  data: any[];
+  error: string | null;
+}
+
+export function DataComponent(props: DataComponentProps) {
+  const [state, setState] = React.useState<ComponentState>({
+    isLoading: false,
+    data: [],
+    error: null,
+  });
+
+  const updateState = (updates: Partial<ComponentState>) => {
+    setState(prevState => ({ ...prevState, ...updates }));
+  };
+
+  // Use state.isLoading, state.data, state.error
+  // Update with updateState({ isLoading: true })
+}
+```
 
 ## ESLint Configuration
 Follow these ESLint rules:
 - Prefer const over let when variables are not reassigned
-- Use arrow functions for component definitions
+- Use function declarations for component definitions
 - Always use semicolons
 - Use single quotes for strings
 - No unused variables or imports
@@ -182,12 +213,10 @@ interface CardProps {
   variant?: 'default' | 'outlined' | 'elevated';
 }
 
-export const Card: React.FC<CardProps> = ({
-  children,
-  title,
-  className = '',
-  variant = 'default',
-}) => {
+export function Card(props: CardProps) {
+  const variant = props.variant || 'default';
+  const className = props.className || '';
+
   const baseClasses = 'rounded-lg p-6';
   const variantClasses = {
     default: 'bg-white',
@@ -197,15 +226,15 @@ export const Card: React.FC<CardProps> = ({
 
   return (
     <div className={`${baseClasses} ${variantClasses[variant]} ${className}`}>
-      {title && (
+      {props.title && (
         <h3 className="text-lg font-semibold mb-4 text-gray-900">
-          {title}
+          {props.title}
         </h3>
       )}
-      {children}
+      {props.children}
     </div>
   );
-};
+}
 ```
 
 These instructions ensure consistent, maintainable, and scalable frontend code generation that follows modern React and TypeScript best practices.
