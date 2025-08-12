@@ -30,16 +30,20 @@ This project is a frontend application built with modern web technologies follow
 ```
 src/
 ├── ui/
-│   └── components/
-│       ├── button.tsx          # Button component
-│       ├── input.tsx           # Input component
-│       ├── card.tsx            # Card component
-│       ├── modal.tsx           # Modal component
-│       └── ...                 # Other reusable UI components
-├── pages/
-│   ├── home-page.tsx
-│   ├── user-profile-page.tsx
-│   └── ...
+│   ├── components/
+│   │   ├── button.tsx          # Button component
+│   │   ├── input.tsx           # Input component
+│   │   ├── card.tsx            # Card component
+│   │   ├── modal.tsx           # Modal component
+│   │   └── ...                 # Other reusable UI components
+│   ├── pages/
+│   │   ├── home-page.tsx
+│   │   ├── user-profile-page.tsx
+│   │   └── ...
+│   └── sections/
+│       ├── header-section.tsx
+│       ├── footer-section.tsx
+│       └── ...
 └── types/
     ├── user.ts
     └── ...
@@ -48,7 +52,7 @@ src/
 ### File Collocation Principles
 - **Avoid global utility folders**: Instead of centralized `hooks/` or `utils/` folders, collocate related files near where they are used
 - **Keep related code together**: Place helper functions, custom hooks, and utilities in the same directory as the components that use them
-- **Example**: If a `user-profile-page.tsx` needs a custom hook, create `user-profile-page.hook.ts` in the same directory
+- **Example**: If a `ui/pages/user-profile-page.tsx` needs a custom hook, create `user-profile-page.hook.ts` in the same directory
 
 ## UI Component Guidelines
 
