@@ -1,0 +1,34 @@
+{
+	"recommendations": [
+		// Auto Rename Tag
+		"formulahendry.auto-rename-tag",
+		// CSS Modules
+		"clinyong.vscode-css-modules",
+		// Docker
+		"ms-azuretools.vscode-docker",
+		// EditorConfig
+		"EditorConfig.EditorConfig",
+		// ESLint
+		"dbaeumer.vscode-eslint",
+		// Git Lens
+		"eamodio.gitlens",
+		// Grammarly
+		"znck.grammarly",
+		// Figma
+		"figma.figma-vscode-extension",
+		// Package size
+		"wix.vscode-import-cost",
+		// Prettier
+		"esbenp.prettier-vscode",
+		// SCSS IntelliSense
+		"mrmlnc.vscode-scss",
+		// SonarQube Linter
+		"SonarSource.sonarlint-vscode",
+		// Stylelint
+		"stylelint.vscode-stylelint",
+		// TypeScript
+		"MylesMurphy.prettify-ts",
+		// Vitest
+		"vitest.explorer"
+	]
+}
