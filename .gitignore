@@ -1,0 +1,72 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# AI scripts and analysis (local only)
+.ai/
+
+# dependencies
+node_modules
+.pnp
+.pnp.js
+
+# local history
+.lh
+
+# build
+.next/
+out/
+build
+dist
+.build/
+.data
+.esbuild
+.serverless/
+_site
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.log
+
+# infra
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+
+# local env files
+.env*
+!.env.example
+!.env.github.example
+!**/.envrc.example
+
+# misc
+.DS_Store
+*.pem
+.dccache
+.idea
+
+# playwright
+playwright-report/
+blob-report/
+playwright/.cache/
+.playwright-mcp
+
+# storybook
+storybook-static
+
+# testing
+.nyc_output
+coverage
+apps/*/report/
+cypress.env.json
+
+# turbo
+.turbo
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+
